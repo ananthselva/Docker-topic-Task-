@@ -1,0 +1,23 @@
+FROM node:14-apache
+
+# Copy the ReactJS application code into the image
+COPY . /var/www/html/react-app
+
+# Change the working directory to the ReactJS application directory
+WORKDIR /var/www/html/react-app
+
+# Install the dependencies for the ReactJS application
+RUN npm install
+
+# Build the ReactJS application
+RUN npm run build
+
+# Copy the build output into the Apache document root
+RUN cp -r build/* /var/www/html/
+
+# Expose port 80
+EXPOSE 80
+
+# Start Apache in the foreground
+cMD [ "apache2ctl", "-D", "FOREGROUND" ]
+I
